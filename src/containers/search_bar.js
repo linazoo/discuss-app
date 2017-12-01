@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchWeather } from '../actions/index';
 
-export default class SearchBar extends Component {
+class SearchBar extends Component {
     //constructor will run whenever this is instantiated (Searchbar instance) it runs this function
     //constructor function is always ran when an instance is instantiated 
     //setting it to an empty string in the beginning here:
@@ -10,6 +13,7 @@ export default class SearchBar extends Component {
         this.state = { term: '' }; 
 
         this.onInputChange = this.onInputChange.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
     }
 
     onInputChange(event) {
@@ -19,6 +23,10 @@ export default class SearchBar extends Component {
 
     onFormSubmit(event) {
         event.preventDefault();
+        
+        //we need to go and featch weather data
+        this.props.fetchWeather(this.state.term);
+        this.setState({ term: '' });
     }
 
     render() {
@@ -36,3 +44,9 @@ export default class SearchBar extends Component {
         );
     }
 }
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ fetchWeather }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(SearchBar);
