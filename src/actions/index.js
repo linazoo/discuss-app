@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-const API_KEY = "affbfd14c28742e0f521908f21ab5ea0";
-const ROOT_URL = `http://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}`;
+const ROOT_URL = 'https://www.reddit.com/r/changemyview/search.json?q=';
+const END_URL = "&restrict_sr=on&sort=relevance&t=all";
 
 export const FETCH_WEATHER = 'FETCH_WEATHER';
 
-export function fetchWeather(city) {
-    const url = `${ROOT_URL}&q=${city},us`;
+export function fetchWeather(term) {
+    const cleanTerm = term.split(" ").join("+");
+    const url = `${ROOT_URL}${cleanTerm}${END_URL}`;
     const request = axios.get(url);
 
     console.log('Request:', request);
